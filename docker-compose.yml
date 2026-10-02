@@ -1,0 +1,20 @@
+services:
+  todo-api-db:
+    image: postgres:17.2-alpine3.21
+    container_name: todo-api-db
+    environment:
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_USER: devuser
+      POSTGRES_DB: todo-api-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_todo_api:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U devuser -d todo-api-db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_todo_api:
